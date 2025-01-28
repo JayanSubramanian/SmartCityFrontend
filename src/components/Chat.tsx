@@ -17,12 +17,13 @@ function Chat() {
       const file = fileInput.files[0];
       const formData = new FormData();
       formData.append('image', file);
+      console.log(formData);
 
       try {
           resultDiv.style.display = 'block';
           resultDiv.textContent = 'Processing...';
 
-          const response = await fetch('http://127.0.0.1:5000/process_image', {
+          const response = await fetch('http://127.0.0.1:8000/process_image', {
               method: 'POST',
               body: formData
           });
