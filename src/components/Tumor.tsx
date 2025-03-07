@@ -91,7 +91,7 @@ export default function Tumor() {
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <Card className="w-full shadow-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent py-[1rem]">
               Biomedical Imaging
             </CardTitle>
             <CardDescription className="text-lg mt-4">
