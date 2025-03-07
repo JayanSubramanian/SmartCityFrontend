@@ -1,21 +1,53 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
 
 function Header() {
   return (
-    <nav className="text-3xl">
-      <ul className="flex flex-row justify-center space-x-[2rem] mt-[1rem] mb-[2rem]">
-        <li className="hover:underline">
-          <NavLink to="/">Home</NavLink>
-        </li>
-        <li className="hover:underline">
-          <NavLink to="/chat">Chat</NavLink>
-        </li>
-        <li className="hover:underline">
-          <NavLink to="/tumor">Tumor</NavLink>
-        </li>
-      </ul>
-    </nav>
-  );
+    <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md rounded-full mb-[2rem]">
+      <div className="container mx-auto px-4">
+        <nav className="py-4">
+          <ul className="flex flex-row justify-center space-x-2 md:space-x-8">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-md transition-all duration-200 inline-block ${
+                    isActive ? "bg-white/20 font-medium shadow-sm" : "hover:bg-white/10"
+                  }`
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/chat"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-md transition-all duration-200 inline-block ${
+                    isActive ? "bg-white/20 font-medium shadow-sm" : "hover:bg-white/10"
+                  }`
+                }
+              >
+                Waste Classification
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/tumor"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-md transition-all duration-200 inline-block ${
+                    isActive ? "bg-white/20 font-medium shadow-sm" : "hover:bg-white/10"
+                  }`
+                }
+              >
+                Biomedical Imaging
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  )
 }
 
-export default Header;
+export default Header
+
