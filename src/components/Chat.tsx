@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Chat.css';
+import Layout from './Layout';
 
 function Chat() {
   useEffect(() => {
@@ -57,14 +57,15 @@ function Chat() {
   }, []);
 
   return (
-    <div>
-      <h1>Waste Classification</h1>
-      <p>Upload an image of waste to classify it into categories such as plastic, paper, organic, metal, or other.</p>
-      <input type="file" id="image-upload" accept="image/*" />
-      <br />
-      <button id="upload-button">Classify Waste</button>
-      <div id="classification-result"></div>
-    </div>
+    <Layout>
+      <div className='flex flex-col items-center'>
+        <h1 className='text-5xl'>Waste Classification</h1>
+        <p className='text-xl my-[1rem]'>Upload an image of waste to classify it into categories such as plastic, paper, organic, metal, or other.</p>
+        <input type="file" id="image-upload" accept="image/*" className='text-xl my-[0.5rem] hover:underline'/>
+        <button id="upload-button" className='text-2xl my-[1rem] border p-[1rem] rounded-full hover:text-white hover:bg-black'>Classify Waste</button>
+        <div id="classification-result"></div>
+      </div>
+    </Layout>
   );
 }
 

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Layout from './Layout'
 
 function Tumor() {
   type TumorType = '' | 'Meningioma' | 'Glioma' | 'Pituitary' | 'No Tumor';
@@ -53,24 +54,26 @@ function Tumor() {
   };
 
   return (
-    <>
-      <div>
-        <select value={scantype} onChange={(e) => setScanType(e.target.value as ScanType)}>
-          <option value="">Select Scan Type</option>
-          <option value="MRI">MRI</option>
-          <option value="XRay">X-Ray</option>
-        </select>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileInputChange}
-        />
-        <button onClick={handleSubmit}>
-          Submit
-        </button>
-      </div>
-      <p>Tumor Type: {tumortype}</p>
-    </>
+    <Layout>
+      <>
+        <div>
+          <select value={scantype} onChange={(e) => setScanType(e.target.value as ScanType)}>
+            <option value="">Select Scan Type</option>
+            <option value="MRI">MRI</option>
+            <option value="XRay">X-Ray</option>
+          </select>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileInputChange}
+          />
+          <button onClick={handleSubmit}>
+            Submit
+          </button>
+        </div>
+        <p>Tumor Type: {tumortype}</p>
+      </>
+    </Layout>
   )
 }
 
