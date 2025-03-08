@@ -30,7 +30,7 @@ function Header() {
                 Waste Classification
               </NavLink>
             </li>
-            <li>
+            {<li>
               <NavLink
                 to="/tumor"
                 className={({ isActive }) =>
@@ -41,7 +41,19 @@ function Header() {
               >
                 Biomedical Imaging
               </NavLink>
-            </li>
+            </li>}
+            {<li>
+              <NavLink
+                to="/pipeline"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-md transition-all duration-200 inline-block ${
+                    isActive ? "bg-white/20 font-medium shadow-sm" : "hover:bg-white/10"
+                  }`
+                }
+              >
+                Pipeline Crack Detection
+              </NavLink>
+            </li>}
           </ul>
         </nav>
       </div>
