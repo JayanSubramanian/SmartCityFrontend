@@ -85,6 +85,25 @@ export default function Pipeline() {
     Crack: true,
     Normal: true,
   });
+  // Add toast notification state
+  const [toast, setToast] = useState<{
+    visible: boolean;
+    message: string;
+    type: 'success' | 'error';
+  }>({
+    visible: false,
+    message: '',
+    type: 'success',
+  });
+
+  // Function to show toast
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ visible: true, message, type });
+    // Auto hide toast after 3 seconds
+    setTimeout(() => {
+      setToast(prev => ({ ...prev, visible: false }));
+    }, 3000);
+  };
 
   // Function to poll the API and update crack data
   useEffect(() => {
@@ -98,22 +117,30 @@ export default function Pipeline() {
         const data: CrackResponse = await response.json();
         
         // Update the crack severity based on the response
-        setCrackData(prevCracks => prevCracks.map(crack => {
-          if (crack.id === data.id) {
-            // If has_crack is true, set to Crack; otherwise, Normal
-            const newSeverity = data.has_crack ? "Crack" : "Normal";
-            
-            return { ...crack, severity: newSeverity };
-          }
-          return crack;
-        }));
-        
+        setCrackData(prevCracks => {
+          const updatedCracks = prevCracks.map(crack => {
+            if (crack.id === data.id) {
+              // If has_crack is true, set to Crack; otherwise, Normal
+              const newSeverity = data.has_crack ? "Crack" : "Normal";
+              
+              return { ...crack, severity: newSeverity };
+            }
+            return crack;
+          });
+          
+          // Show success toast notification
+          showToast(`Pipeline data updated: Point ${data.id} is ${data.has_crack ? 'cracked' : 'normal'}`, 'success');
+          
+          return updatedCracks;
+        });
       } catch (error) {
         console.error("Error fetching crack data:", error);
+        // Show error toast notification
+        showToast("Failed to update pipeline data", 'error');
       }
     };
 
-    // Set up interval to poll every 3 seconds
+    // Set up interval to poll every 12 seconds
     const intervalId = setInterval(updateCrackData, 12000);
     
     // Clean up interval when component unmounts
@@ -134,6 +161,26 @@ export default function Pipeline() {
   return (
     <Layout>
       <div className="flex flex-col h-[42vw] w-full bg-white rounded-4xl overflow-hidden">
+        {/* Toast notification */}
+        {toast.visible && (
+          <div 
+            className={`fixed top-4 right-4 z-[2000] px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 transform transition-all duration-300 animate-fade-in ${
+              toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`}
+          >
+            {toast.type === 'success' ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+            )}
+            <span>{toast.message}</span>
+          </div>
+        )}
+
         {/* Header/Nav */}
         <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-8 flex items-center justify-between">
           <h1 className="text-xl font-bold">Pipeline Crack Detection</h1>
