@@ -102,6 +102,7 @@ export default function Pipeline() {
           if (crack.id === data.id) {
             // If has_crack is true, set to Crack; otherwise, Normal
             const newSeverity = data.has_crack ? "Crack" : "Normal";
+            
             return { ...crack, severity: newSeverity };
           }
           return crack;
@@ -113,7 +114,7 @@ export default function Pipeline() {
     };
 
     // Set up interval to poll every 3 seconds
-    const intervalId = setInterval(updateCrackData, 3000);
+    const intervalId = setInterval(updateCrackData, 12000);
     
     // Clean up interval when component unmounts
     return () => clearInterval(intervalId);
