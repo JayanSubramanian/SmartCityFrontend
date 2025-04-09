@@ -1,5 +1,6 @@
 "use client"
 
+import Layout from "./Layout"
 import { useState, useEffect } from "react"
 import PipelineSystem from "./Pipeline/system"
 import Toast from "./Pipeline/toast"
@@ -126,46 +127,48 @@ export default function PipelineMonitor() {
   }, [])
 
   return (
-    <div className="space-y-8">
-      <div className="relative aspect-square w-full max-w-xl mx-auto bg-white rounded-lg shadow-md p-8">
-        <PipelineSystem pipeSegments={pipeSegments} />
-      </div>
+    <Layout>
+      <div className="space-y-8">
+        <div className="relative aspect-square w-full max-w-xl mx-auto bg-white rounded-lg shadow-md p-8">
+          <PipelineSystem pipeSegments={pipeSegments} />
+        </div>
 
-      {/* Status display and controls */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-        {pipeSegments.map((segment) => (
-          <div
-            key={segment.id}
-            className="p-4 rounded-md shadow-sm"
-            style={{
-              backgroundColor: segment.color === "#FF0000" ? "#FFEEEE" : "#FFFFEE",
-              borderLeft: `4px solid ${segment.color}`,
-            }}
-          >
-            <p className="font-medium capitalize">{segment.id} Segment</p>
-            <p className="text-sm mt-1">
-              Status: <span className="font-bold">{segment.status}</span>
-            </p>
-            <div className="mt-3 flex justify-center space-x-2">
-              <button
-                className="px-3 py-1 text-xs rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
-                onClick={() => updatePipeStatus(segment.id, "OK")}
-              >
-                Set OK
-              </button>
-              <button
-                className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors"
-                onClick={() => updatePipeStatus(segment.id, "CRACK")}
-              >
-                Set CRACK
-              </button>
+        {/* Status display and controls */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          {pipeSegments.map((segment) => (
+            <div
+              key={segment.id}
+              className="p-4 rounded-md shadow-sm"
+              style={{
+                backgroundColor: segment.color === "#FF0000" ? "#FFEEEE" : "#FFFFEE",
+                borderLeft: `4px solid ${segment.color}`,
+              }}
+            >
+              <p className="font-medium capitalize">{segment.id} Segment</p>
+              <p className="text-sm mt-1">
+                Status: <span className="font-bold">{segment.status}</span>
+              </p>
+              <div className="mt-3 flex justify-center space-x-2">
+                <button
+                  className="px-3 py-1 text-xs rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
+                  onClick={() => updatePipeStatus(segment.id, "OK")}
+                >
+                  Set OK
+                </button>
+                <button
+                  className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors"
+                  onClick={() => updatePipeStatus(segment.id, "CRACK")}
+                >
+                  Set CRACK
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Toast notification */}
-      <Toast message={toast.message} type={toast.type} visible={toast.visible} onClose={hideToast} />
-    </div>
+        {/* Toast notification */}
+        <Toast message={toast.message} type={toast.type} visible={toast.visible} onClose={hideToast} />
+      </div>
+    </Layout>
   )
 }
