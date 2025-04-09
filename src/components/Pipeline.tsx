@@ -148,7 +148,7 @@ export default function PipelineMonitor() {
               <p className="text-sm mt-1">
                 Status: <span className="font-bold">{segment.status}</span>
               </p>
-              <div className="mt-3 flex justify-center space-x-2">
+              {/* <div className="mt-3 flex justify-center space-x-2">
                 <button
                   className="px-3 py-1 text-xs rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
                   onClick={() => updatePipeStatus(segment.id, "OK")}
@@ -161,7 +161,7 @@ export default function PipelineMonitor() {
                 >
                   Set CRACK
                 </button>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
