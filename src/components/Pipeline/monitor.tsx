@@ -1,8 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import PipelineSystem from "./Pipeline/system"
-import Toast from "./Pipeline/toast"
+import PipelineSystem from "./system"
 
 // Define the possible pipe statuses
 export type PipeStatus = "OK" | "CRACK"
@@ -15,26 +14,14 @@ export interface PipeSegmentData {
   color: string
 }
 
-// Interface for API response
-interface CrackResponse {
-  id: string
-  has_crack: boolean
-}
-
-// Map API ID to pipe segment ID
-const mapApiIdToSegmentId = (apiId: string): PipeSegmentId => {
-  // Customize this mapping based on your API's ID system
-  switch (apiId) {
-    case "1":
-      return "top"
-    case "2":
-      return "right"
-    case "3":
-      return "bottom"
-    case "4":
-      return "left"
-    default:
-      return "top" // Default fallback
+// Mock function that would be replaced with your actual status checking function
+const checkPipeStatus = (): Record<PipeSegmentId, PipeStatus> => {
+  // This is a placeholder. Replace with your actual status checking logic
+  return {
+    top: "OK",
+    right: "OK",
+    bottom: "OK",
+    left: "OK",
   }
 }
 
@@ -47,25 +34,9 @@ export default function PipelineMonitor() {
     { id: "left", status: "OK", color: "#FFD700" }, // Yellow
   ])
 
-  // Toast state
-  const [toast, setToast] = useState<{
-    visible: boolean
-    message: string
-    type: "success" | "error"
-  }>({
-    visible: false,
-    message: "",
-    type: "success",
-  })
-
-  // Function to show toast
-  const showToast = (message: string, type: "success" | "error") => {
-    setToast({ visible: true, message, type })
-  }
-
-  // Function to hide toast
-  const hideToast = () => {
-    setToast((prev) => ({ ...prev, visible: false }))
+  // Function to update pipe color based on segment ID
+  const updatePipeColor = (segment: PipeSegmentId, color: string) => {
+    setPipeSegments((prevSegments) => prevSegments.map((pipe) => (pipe.id === segment ? { ...pipe, color } : pipe)))
   }
 
   // Function to update pipe status
@@ -81,48 +52,27 @@ export default function PipelineMonitor() {
     )
   }
 
-  // Function to check pipe status from API
-  const checkPipeStatus = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/crack_result")
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const data: CrackResponse = await response.json()
-
-      // Map API ID to our segment ID
-      const segmentId = mapApiIdToSegmentId(data.id)
-
-      // Update the specific pipe segment
-      updatePipeStatus(segmentId, data.has_crack ? "CRACK" : "OK")
-
-      // Show success toast notification
-      showToast(`Pipeline data updated: ${segmentId} segment is ${data.has_crack ? "cracked" : "normal"}`, "success")
-
-      return {
-        [segmentId]: data.has_crack ? "CRACK" : "OK",
-      } as Partial<Record<PipeSegmentId, PipeStatus>>
-    } catch (error) {
-      console.error("Error fetching crack data:", error)
-      // Show error toast notification
-      showToast("Failed to update pipeline data", "error")
-      return {} as Record<PipeSegmentId, PipeStatus>
-    }
+  // Function to update all pipe statuses at once
+  const updateAllPipeStatuses = (statuses: Record<PipeSegmentId, PipeStatus>) => {
+    setPipeSegments((prevSegments) =>
+      prevSegments.map((pipe) => {
+        const status = statuses[pipe.id]
+        const newColor = status === "CRACK" ? "#FF0000" : "#FFD700"
+        return { ...pipe, status, color: newColor }
+      }),
+    )
   }
 
-  // Set up polling interval to check pipe status
+  // This effect would be where you integrate your actual status checking
   useEffect(() => {
-    // Initial check
-    checkPipeStatus()
-
-    // Set up interval to poll every 12 seconds
-    const intervalId = setInterval(async () => {
-      await checkPipeStatus()
-    }, 12000)
-
-    // Clean up interval when component unmounts
-    return () => clearInterval(intervalId)
+    // This is where you would integrate your interval function
+    // that checks the status of each pipe segment
+    // Example of how you might use it:
+    // const interval = setInterval(() => {
+    //   const statuses = checkPipeStatus()
+    //   updateAllPipeStatuses(statuses)
+    // }, 5000)
+    // return () => clearInterval(interval)
   }, [])
 
   return (
@@ -163,9 +113,6 @@ export default function PipelineMonitor() {
           </div>
         ))}
       </div>
-
-      {/* Toast notification */}
-      <Toast message={toast.message} type={toast.type} visible={toast.visible} onClose={hideToast} />
     </div>
   )
 }
