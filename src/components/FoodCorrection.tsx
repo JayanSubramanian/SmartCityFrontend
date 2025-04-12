@@ -57,7 +57,7 @@ export default function FoodCorrection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              Food Recommendation Chatbot
+              Food Name Correction
             </motion.h1>
             <motion.p
               className="text-lg text-slate-600 mb-8"
@@ -76,8 +76,6 @@ export default function FoodCorrection() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="bg-white rounded-xl shadow-xl p-6 md:p-8">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4">Correct Food Name</h2>
-              <p className="text-slate-600 mb-6">Enter a food name and we'll correct any typos for you</p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-6">
                 <div className="relative flex-1">

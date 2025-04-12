@@ -66,6 +66,18 @@ function Header() {
                 NutriBot
               </NavLink>
             </li>}
+            {<li>
+              <NavLink
+                to="/foodcorrection"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-md transition-all duration-200 inline-block ${
+                    isActive ? "bg-white/20 font-medium shadow-sm" : "hover:bg-white/10"
+                  }`
+                }
+              >
+                Food Name Correction
+              </NavLink>
+            </li>}
           </ul>
         </nav>
       </div>
