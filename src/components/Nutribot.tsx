@@ -14,7 +14,7 @@ interface ChatMessage {
 }
 
 function NutriBot() {
-  const [calorieLimit, setCalorieLimit] = useState<number>(1500);
+  const [calorieLimit, setCalorieLimit] = useState<number>(600);
   const [loading, setLoading] = useState(false);
   const [recommendations, setRecommendations] = useState<Food[]>([]);
   const [selectedFoods, setSelectedFoods] = useState<Food[]>([]);
@@ -147,9 +147,9 @@ function NutriBot() {
                 >
                   <div
                     className={`max-w-[80%] rounded-lg p-3 ${
-                      message.role === 'user'
+                        message.role === 'user'
                         ? 'bg-green-600 text-white'
-                        : 'bg-gray-100 text-gray-800'
+                        : 'bg-gray-300 text-gray-800'
                     }`}
                   >
                     {message.content}
